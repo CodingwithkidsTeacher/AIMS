@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Superhero Trading Card</title>
+   <style>
+       body {
+           background: linear-gradient(135deg, #1a1a2e, #16213e);
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           height: 100vh;
+           margin: 0;
+           font-family: 'Impact', 'Arial Black', sans-serif;
+       }
+       .card {
+           width: 400px;
+           background: linear-gradient(145deg, #ffd700, #ffaa00);
+           border: 6px solid black;
+           border-radius: 40px;
+           padding: 25px 20px;
+           text-align: center;
+           box-shadow: 15px 15px 0px rgba(0,0,0,0.5);
+           transform: rotate(-1deg);
+           transition: transform 0.2s;
+       }
+       .card:hover {
+           transform: rotate(0deg) scale(1.02);
+       }
+       .badge {
+           background: black;
+           color: white;
+           padding: 8px 0;
+           border-radius: 30px;
+           margin-bottom: 20px;
+           letter-spacing: 4px;
+           font-weight: bold;
+           border: 2px solid white;
+       }
+       .hero-image {
+           width: 180px;
+           height: 180px;
+           border-radius: 50%;
+           border: 5px solid white;
+           box-shadow: 0 0 0 4px black, 0 0 20px cyan;
+           object-fit: cover;
+           margin-bottom: 15px;
+       }
+       .hero-name {
+           font-size: 34px;
+           font-weight: 900;
+           color: #5c0e0e;
+           text-shadow: 3px 3px 0px white;
+           margin: 5px 0;
+           text-transform: uppercase;
+       }
+       .catchphrase {
+           background: white;
+           border-radius: 30px;
+           padding: 8px 15px;
+           margin: 15px 0;
+           border: 3px dashed black;
+           font-style: italic;
+           font-size: 18px;
+           font-weight: bold;
+       }
+       .stats {
+           display: flex;
+           justify-content: space-between;
+           margin: 20px 10px;
+           font-size: 14px;
+       }
+       .stat {
+           background: rgba(255,255,255,0.5);
+           padding: 8px 12px;
+           border-radius: 20px;
+           border: 1px solid black;
+       }
+       .ai-badge {
+           background: black;
+           color: #00ff88;
+           padding: 6px 15px;
+           border-radius: 50px;
+           display: inline-block;
+           font-family: 'Courier New', monospace;
+           font-size: 12px;
+           border: 1px solid #00ff88;
+           margin-top: 10px;
+       }
+   </style>
+</head>
+<body>
+   <div class="card">
+       <div class="badge">
+           ⚡ OFFICIAL SUPERHERO CARD ⚡
+       </div>
+            <!-- 1. SWAP THE IMAGE SOURCE -->
+       <img class="hero-image" src="https://placehold.co/200x200/333/white?text=HERO" alt="Superhero Portrait">
+      
+       <!-- 2. SWAP THE HERO NAME -->
+       <div class="hero-name">THE CRUNCHY TACO</div>
+      
+       <!-- 3. SWAP THE CATCHPHRASE -->
+       <div class="catchphrase">
+           "FEAR THE CRUNCH!"
+       </div>
+
+
+       <!-- 4. SWAP THE STATS -->
+       <div class="stats">
+           <span class="stat">⚡ 5G TORTILLA</span>
+           <span class="stat">💔 SALSA</span>
+       </div>
+       <div class="ai-badge">
+           🤖 AI GENERATED HERO
+       </div>
+   </div>
+</body>
+</html>
