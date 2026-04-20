@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>About Me | Your Name</title>
+   <style>
+       /* Global styles */
+       body {
+           background-color: #f0f8ff;   /* light blue background */
+           font-family: 'Arial', sans-serif;
+           margin: 30px;
+           padding: 20px;
+           line-height: 1.6;
+       }
+
+
+       /* Heading style */
+       h1 {
+           color: #2c3e50;
+           text-align: center;
+           font-family: 'Georgia', serif;
+           border-bottom: 3px solid #3498db;
+           display: inline-block;
+           width: 100%;
+           padding-bottom: 10px;
+       }
+
+
+       h2 {
+           color: #2980b9;
+           margin-top: 30px;
+       }
+
+
+       /* Image styling */
+       .profile-img {
+           border: 5px solid #3498db;
+           border-radius: 50%;      /* makes it round */
+           width: 200px;
+           height: 200px;
+           object-fit: cover;
+           display: block;
+           margin: 20px auto;
+           box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+       }
+
+
+       /* Bio paragraph */
+       .bio {
+           background-color: #eaf2f8;
+           padding: 15px;
+           border-radius: 10px;
+           margin: 20px 0;
+       }
+
+
+       /* List styling */
+       ul {
+           background: #ffffff;
+           padding: 15px 15px 15px 35px;
+           border-radius: 8px;
+           list-style-type: square;
+       }
+
+
+       li {
+           margin: 5px 0;
+           color: #2c3e50;
+       }
+
+
+       /* Link styling */
+       a {
+           color: #e67e22;
+           text-decoration: none;
+           font-weight: bold;
+       }
+
+
+       a:hover {
+           color: #f39c12;
+           text-decoration: underline;
+           background-color: #fef5e7;
+           padding: 2px 4px;
+           border-radius: 4px;
+       }
+
+
+       /* Table styling (stretch goal) */
+       .fav-table {
+           width: 100%;
+           border-collapse: collapse;
+           margin: 20px 0;
+           background-color: white;
+       }
+
+
+       .fav-table th, .fav-table td {
+           border: 1px solid #ddd;
+           padding: 10px;
+           text-align: left;
+       }
+
+
+       .fav-table th {
+           background-color: #3498db;
+           color: white;
+       }
+
+
+       .fav-table tr:nth-child(even) {
+           background-color: #f2f2f2;
+       }
+
+
+       /* Footer */
+       footer {
+           text-align: center;
+           margin-top: 40px;
+           font-size: 0.8em;
+           color: #7f8c8d;
+       }
+   </style>
+</head>
+<body>
+
+
+   <h1>About Alex Johnson</h1>
+
+
+   <img class="profile-img" src="https://picsum.photos/id/100/200/200" alt="Profile photo placeholder">
+
+
+   <div class="bio">
+       <p>Hi! I'm Alex, a 10th grader who loves coding, playing soccer, and reading sci-fi novels. I built my first website when I was 12, and now I'm learning HTML & CSS to create my own portfolio. This page tells you a little about me.</p>
+   </div>
+
+
+   <h2>📌 My Hobbies & Favorites</h2>
+   <ul>
+       <li>⚽ Playing soccer (I'm a midfielder)</li>
+       <li>💻 Coding small games in Python and web projects</li>
+       <li>📚 Reading – favorite book: "Project Hail Mary" by Andy Weir</li>
+       <li>🎮 Video games: Minecraft and Valorant</li>
+   </ul>
+
+
+   <h2>🎬 Favorite Movies</h2>
+   <table class="fav-table">
+       <thead>
+           <tr><th>Title</th><th>Year</th><th>Why I like it</th></tr>
+       </thead>
+       <tbody>
+           <tr><td>Interstellar</td><td>2014</td><td>Amazing space story and soundtrack</td></tr>
+           <tr><td>The Matrix</td><td>1999</td><td>Revolutionary effects and philosophy</td></tr>
+           <tr><td>Spider-Man: Into the Spider-Verse</td><td>2018</td><td>Unique animation and great humor</td></tr>
+       </tbody>
+   </table>
+
+
+   <footer>
+       <p>© 2026 Alex Liu | Built with HTML & CSS</p>
+   </footer>
+
+
+</body>
+</html>
