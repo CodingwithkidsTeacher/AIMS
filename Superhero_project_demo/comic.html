@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captain Pixel Comic Story</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family: Arial, sans-serif;
+
+            background:
+            linear-gradient(
+                to bottom,
+                #020617,
+                #0f172a,
+                #111827
+            );
+
+            color: white;
+
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 40px 20px;
+        }
+
+        .title {
+            font-size: 60px;
+
+            color: #00d9ff;
+
+            text-shadow:
+            0 0 20px #00d9ff;
+
+            margin-bottom: 10px;
+
+            letter-spacing: 4px;
+        }
+
+        .subtitle {
+            font-size: 24px;
+
+            color: #cbd5e1;
+
+            margin-bottom: 50px;
+
+            font-style: italic;
+        }
+
+        .comic-grid {
+            display: grid;
+
+            grid-template-columns:
+            repeat(auto-fit, minmax(280px, 1fr));
+
+            gap: 25px;
+        }
+
+        .comic-panel {
+            background:
+            rgba(255,255,255,0.05);
+
+            border:
+            2px solid rgba(0,217,255,0.4);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            box-shadow:
+            0 0 20px rgba(0,217,255,0.15);
+
+            transition: 0.3s ease;
+        }
+
+        .comic-panel:hover {
+            transform:
+            translateY(-5px)
+            scale(1.02);
+
+            box-shadow:
+            0 0 30px rgba(0,217,255,0.35);
+        }
+
+        .comic-panel img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .panel-text {
+            padding: 20px;
+        }
+
+        .panel-title {
+            font-size: 24px;
+
+            color: #00d9ff;
+
+            margin-bottom: 10px;
+        }
+
+        .panel-description {
+            color: #d1d5db;
+
+            line-height: 1.6;
+
+            font-size: 15px;
+        }
+
+        .quote-box {
+            margin-top: 60px;
+
+            background:
+            rgba(255,255,255,0.06);
+
+            border-left:
+            5px solid #00d9ff;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            max-width: 900px;
+
+            margin-left: auto;
+            margin-right: auto;
+
+            font-size: 22px;
+
+            font-style: italic;
+
+            color: #e0f2fe;
+        }
+
+        .nav-links {
+            margin-top: 50px;
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+
+            color: white;
+
+            padding: 14px 28px;
+
+            border-radius: 999px;
+
+            background:
+            linear-gradient(
+                90deg,
+                #06b6d4,
+                #2563eb
+            );
+
+            font-weight: bold;
+
+            transition: 0.3s ease;
+
+            box-shadow:
+            0 0 20px rgba(0,217,255,0.3);
+        }
+
+        .nav-links a:hover {
+            transform: scale(1.05);
+
+            box-shadow:
+            0 0 30px rgba(0,217,255,0.6);
+        }
+
+        .footer {
+            margin-top: 50px;
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            letter-spacing: 3px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- TITLE -->
+        <div class="title">
+            CAPTAIN PIXEL
+        </div>
+
+        <div class="subtitle">
+            THE GLITCH WARS COMIC STORY
+        </div>
+
+        <!-- COMIC PANELS -->
+        <div class="comic-grid">
+
+            <!-- PANEL 1 -->
+            <div class="comic-panel">
+
+                <img src="images/originalstory.png"
+                     alt="Captain Pixel discovers his powers">
+
+                <div class="panel-text">
+
+                    <div class="panel-title">
+                        ORIGIN STORY
+                    </div>
+
+                    <div class="panel-description">
+                        After a mysterious experiment goes wrong,
+                        teenage coder Alex Rivera gains powerful
+                        pixel energy abilities from a collapsing AI system.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PANEL 2 -->
+            <div class="comic-panel">
+
+                <img src="images/Dr.LAG.png"
+                     alt="Dr Lag attacks the city">
+
+                <div class="panel-text">
+
+                    <div class="panel-title">
+                        DR. LAG RETURNS
+                    </div>
+
+                    <div class="panel-description">
+                        The evil Dr. Lag launches a cyber attack
+                        across the futuristic city, causing technology
+                        to glitch and spiral out of control.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PANEL 3 -->
+            <div class="comic-panel">
+
+                <img src="images/pixelbattle.png"
+                     alt="Captain Pixel battles glitch robots">
+
+                <div class="panel-text">
+
+                    <div class="panel-title">
+                        PIXEL BATTLE
+                    </div>
+
+                    <div class="panel-description">
+                        Captain Pixel fights giant glitch robots,
+                        dodges laser attacks, and protects civilians
+                        during an epic rooftop battle.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PANEL 4 -->
+            <div class="comic-panel">
+
+                <img src="images/finalshowdown.png"
+                     alt="Captain Pixel enters portal">
+
+                <div class="panel-text">
+
+                    <div class="panel-title">
+                        FINAL SHOWDOWN
+                    </div>
+
+                    <div class="panel-description">
+                        Entering a dangerous digital portal,
+                        Captain Pixel prepares for the ultimate
+                        battle to save the internet forever.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- QUOTE -->
+        <div class="quote-box">
+
+            🎙️ “The internet isn’t just code anymore...
+            it’s our future. And I won’t let Dr. Lag delete it.”
+
+        </div>
+
+        <!-- NAVIGATION -->
+        <div class="nav-links">
+
+            <a href="index.html">
+                ← HERO CARD
+            </a>
+
+            <a href="trailer.html">
+                ▶ WATCH TRAILER
+            </a>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            🤖 AI GENERATED COMIC STORY EXPERIENCE
+        </div>
+
+    </div>
+
+</body>
+</html>
