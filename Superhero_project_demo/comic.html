@@ -1,337 +1,539 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Captain Pixel Comic Story</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
+<title>Captain Pixel Comic Story</title>
 
-        body {
-            margin: 0;
-            padding: 0;
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-            font-family: Arial, sans-serif;
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 
-            background:
-            linear-gradient(
-                to bottom,
-                #020617,
-                #0f172a,
-                #111827
-            );
+<style>
 
-            color: white;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-            text-align: center;
-        }
+body{
 
-        .container {
-            max-width: 1200px;
+    font-family:'Rajdhani',sans-serif;
 
-            margin: auto;
+    background:
+    radial-gradient(circle at top,#091540,#020617 60%);
 
-            padding: 40px 20px;
-        }
+    color:white;
 
-        .title {
-            font-size: 60px;
+    min-height:100vh;
 
-            color: #00d9ff;
+    overflow-x:hidden;
 
-            text-shadow:
-            0 0 20px #00d9ff;
+    padding:40px 20px;
+}
 
-            margin-bottom: 10px;
+/* glowing background squares */
 
-            letter-spacing: 4px;
-        }
+body::before{
 
-        .subtitle {
-            font-size: 24px;
+    content:"";
 
-            color: #cbd5e1;
+    position:fixed;
 
-            margin-bottom: 50px;
+    inset:0;
 
-            font-style: italic;
-        }
+    background-image:
+    linear-gradient(rgba(0,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,255,0.05) 1px, transparent 1px);
 
-        .comic-grid {
-            display: grid;
+    background-size:40px 40px;
 
-            grid-template-columns:
-            repeat(auto-fit, minmax(280px, 1fr));
+    pointer-events:none;
+}
 
-            gap: 25px;
-        }
+/* container */
 
-        .comic-panel {
-            background:
-            rgba(255,255,255,0.05);
+.container{
 
-            border:
-            2px solid rgba(0,217,255,0.4);
+    max-width:1500px;
 
-            border-radius: 20px;
+    margin:auto;
 
-            overflow: hidden;
+    text-align:center;
+}
 
-            box-shadow:
-            0 0 20px rgba(0,217,255,0.15);
+/* title */
 
-            transition: 0.3s ease;
-        }
+.main-title{
 
-        .comic-panel:hover {
-            transform:
-            translateY(-5px)
-            scale(1.02);
+    font-family:'Orbitron',sans-serif;
 
-            box-shadow:
-            0 0 30px rgba(0,217,255,0.35);
-        }
+    font-size:90px;
 
-        .comic-panel img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+    font-weight:900;
 
-        .panel-text {
-            padding: 20px;
-        }
+    color:#67e8ff;
 
-        .panel-title {
-            font-size: 24px;
+    text-shadow:
+    0 0 10px #00d9ff,
+    0 0 30px #00d9ff,
+    0 0 60px #00d9ff;
 
-            color: #00d9ff;
+    letter-spacing:5px;
 
-            margin-bottom: 10px;
-        }
+    margin-bottom:10px;
+}
 
-        .panel-description {
-            color: #d1d5db;
+.subtitle{
 
-            line-height: 1.6;
+    display:flex;
 
-            font-size: 15px;
-        }
+    align-items:center;
 
-        .quote-box {
-            margin-top: 60px;
+    justify-content:center;
 
-            background:
-            rgba(255,255,255,0.06);
+    gap:20px;
 
-            border-left:
-            5px solid #00d9ff;
+    margin-bottom:40px;
 
-            padding: 25px;
+    color:white;
 
-            border-radius: 20px;
+    font-style:italic;
 
-            max-width: 900px;
+    font-size:32px;
 
-            margin-left: auto;
-            margin-right: auto;
+    letter-spacing:2px;
+}
 
-            font-size: 22px;
+.subtitle::before,
+.subtitle::after{
 
-            font-style: italic;
+    content:"";
 
-            color: #e0f2fe;
-        }
+    width:120px;
 
-        .nav-links {
-            margin-top: 50px;
+    height:4px;
 
-            display: flex;
+    background:linear-gradient(to right,transparent,#00d9ff);
+}
 
-            justify-content: center;
+.subtitle::after{
 
-            gap: 20px;
+    background:linear-gradient(to left,transparent,#00d9ff);
+}
 
-            flex-wrap: wrap;
-        }
+/* comic grid */
 
-        .nav-links a {
-            text-decoration: none;
+.comic-grid{
 
-            color: white;
+    display:grid;
 
-            padding: 14px 28px;
+    grid-template-columns:repeat(4,1fr);
 
-            border-radius: 999px;
+    gap:25px;
 
-            background:
-            linear-gradient(
-                90deg,
-                #06b6d4,
-                #2563eb
-            );
+    margin-top:30px;
+}
 
-            font-weight: bold;
+/* panels */
 
-            transition: 0.3s ease;
+.panel{
 
-            box-shadow:
-            0 0 20px rgba(0,217,255,0.3);
-        }
+    background:rgba(8,12,30,0.95);
 
-        .nav-links a:hover {
-            transform: scale(1.05);
+    border-radius:25px;
 
-            box-shadow:
-            0 0 30px rgba(0,217,255,0.6);
-        }
+    overflow:hidden;
 
-        .footer {
-            margin-top: 50px;
+    position:relative;
 
-            color: #64748b;
+    transition:0.3s;
 
-            font-size: 12px;
+    border:2px solid #00d9ff;
 
-            letter-spacing: 3px;
-        }
+    box-shadow:
+    0 0 15px rgba(0,217,255,0.5);
+}
 
-    </style>
+.panel:hover{
+
+    transform:translateY(-10px) scale(1.02);
+
+    box-shadow:
+    0 0 25px rgba(0,217,255,0.9);
+}
+
+/* panel number */
+
+.panel-number{
+
+    position:absolute;
+
+    top:15px;
+
+    left:15px;
+
+    background:rgba(255,255,255,0.15);
+
+    backdrop-filter:blur(8px);
+
+    padding:8px 14px;
+
+    border-radius:12px;
+
+    font-size:40px;
+
+    font-weight:700;
+
+    z-index:2;
+}
+
+/* image */
+
+.panel img{
+
+    width:100%;
+
+    height:430px;
+
+    object-fit:cover;
+
+    display:block;
+}
+
+/* content */
+
+.panel-content{
+
+    padding:25px;
+}
+
+.panel-title{
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:32px;
+
+    margin-bottom:15px;
+
+    text-transform:uppercase;
+}
+
+.panel p{
+
+    font-size:20px;
+
+    line-height:1.6;
+}
+
+/* colors */
+
+.blue{
+    border-color:#00d9ff;
+}
+
+.blue .panel-title,
+.blue .panel-number{
+    color:#00d9ff;
+}
+
+.pink{
+    border-color:#ff2dcf;
+}
+
+.pink .panel-title,
+.pink .panel-number{
+    color:#ff2dcf;
+}
+
+.yellow{
+    border-color:#ffd500;
+}
+
+.yellow .panel-title,
+.yellow .panel-number{
+    color:#ffd500;
+}
+
+.purple{
+    border-color:#bb00ff;
+}
+
+.purple .panel-title,
+.purple .panel-number{
+    color:#bb00ff;
+}
+
+/* quote */
+
+.quote-box{
+
+    margin:60px auto 40px;
+
+    max-width:1200px;
+
+    border:2px solid #00d9ff;
+
+    border-radius:25px;
+
+    padding:30px;
+
+    background:rgba(8,12,30,0.9);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:25px;
+
+    box-shadow:
+    0 0 20px rgba(0,217,255,0.4);
+}
+
+.quote-icon{
+
+    font-size:70px;
+
+    color:#00d9ff;
+}
+
+.quote-text{
+
+    font-size:38px;
+
+    font-style:italic;
+
+    color:white;
+}
+
+/* buttons */
+
+.buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:30px;
+
+    margin-top:20px;
+}
+
+.btn{
+
+    text-decoration:none;
+
+    color:white;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    padding:20px 45px;
+
+    border-radius:20px;
+
+    transition:0.3s;
+
+    font-family:'Orbitron',sans-serif;
+}
+
+.btn-blue{
+
+    border:3px solid #00d9ff;
+
+    box-shadow:0 0 15px rgba(0,217,255,0.6);
+}
+
+.btn-purple{
+
+    border:3px solid #bb00ff;
+
+    box-shadow:0 0 15px rgba(187,0,255,0.6);
+}
+
+.btn:hover{
+
+    transform:scale(1.05);
+
+    box-shadow:
+    0 0 30px rgba(255,255,255,0.8);
+}
+
+/* responsive */
+
+@media(max-width:1200px){
+
+    .comic-grid{
+
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .main-title{
+
+        font-size:60px;
+    }
+}
+
+@media(max-width:700px){
+
+    .comic-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .main-title{
+
+        font-size:42px;
+    }
+
+    .subtitle{
+
+        font-size:18px;
+    }
+
+    .buttons{
+
+        flex-direction:column;
+    }
+
+    .quote-text{
+
+        font-size:24px;
+    }
+  
+}
+
+</style>
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <!-- TITLE -->
-        <div class="title">
-            CAPTAIN PIXEL
-        </div>
+    <h1 class="main-title">CAPTAIN PIXEL</h1>
 
-        <div class="subtitle">
-            THE GLITCH WARS COMIC STORY
-        </div>
+    <div class="subtitle">
+        THE GLITCH WARS COMIC STORY
+    </div>
 
-        <!-- COMIC PANELS -->
-        <div class="comic-grid">
+    <div class="comic-grid">
 
-            <!-- PANEL 1 -->
-            <div class="comic-panel">
+        <!-- panel 1 -->
 
-                <img src="images/originalstory.png"
-                     alt="Captain Pixel discovers his powers">
+        <div class="panel blue">
 
-                <div class="panel-text">
+            <div class="panel-number">01</div>
 
-                    <div class="panel-title">
-                        ORIGIN STORY
-                    </div>
+            <img src="images/originalstory.png">
 
-                    <div class="panel-description">
-                        After a mysterious experiment goes wrong,
-                        teenage coder Alex Rivera gains powerful
-                        pixel energy abilities from a collapsing AI system.
-                    </div>
+            <div class="panel-content">
 
-                </div>
+                <h2 class="panel-title">ORIGIN STORY</h2>
 
-            </div>
-
-            <!-- PANEL 2 -->
-            <div class="comic-panel">
-
-                <img src="images/Dr.LAG.png"
-                     alt="Dr Lag attacks the city">
-
-                <div class="panel-text">
-
-                    <div class="panel-title">
-                        DR. LAG RETURNS
-                    </div>
-
-                    <div class="panel-description">
-                        The evil Dr. Lag launches a cyber attack
-                        across the futuristic city, causing technology
-                        to glitch and spiral out of control.
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- PANEL 3 -->
-            <div class="comic-panel">
-
-                <img src="images/pixelbattle.png"
-                     alt="Captain Pixel battles glitch robots">
-
-                <div class="panel-text">
-
-                    <div class="panel-title">
-                        PIXEL BATTLE
-                    </div>
-
-                    <div class="panel-description">
-                        Captain Pixel fights giant glitch robots,
-                        dodges laser attacks, and protects civilians
-                        during an epic rooftop battle.
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- PANEL 4 -->
-            <div class="comic-panel">
-
-                <img src="images/finalshowdown.png"
-                     alt="Captain Pixel enters portal">
-
-                <div class="panel-text">
-
-                    <div class="panel-title">
-                        FINAL SHOWDOWN
-                    </div>
-
-                    <div class="panel-description">
-                        Entering a dangerous digital portal,
-                        Captain Pixel prepares for the ultimate
-                        battle to save the internet forever.
-                    </div>
-
-                </div>
+                <p>
+                    After a mysterious experiment goes wrong, teenage coder Alex Rivera gains powerful pixel energy abilities from a collapsing AI system.
+                </p>
 
             </div>
 
         </div>
 
-        <!-- QUOTE -->
-        <div class="quote-box">
+        <!-- panel 2 -->
 
-            🎙️ “The internet isn’t just code anymore...
-            it’s our future. And I won’t let Dr. Lag delete it.”
+        <div class="panel pink">
+
+            <div class="panel-number">02</div>
+
+            <img src="images/Dr.LAG.png">
+
+            <div class="panel-content">
+
+                <h2 class="panel-title">DR. LAG RETURNS</h2>
+
+                <p>
+                    The evil Dr. Lag launches a cyber attack across the futuristic city, causing technology to glitch and spiral out of control.
+                </p>
+
+            </div>
 
         </div>
 
-        <!-- NAVIGATION -->
-        <div class="nav-links">
+        <!-- panel 3 -->
 
-            <a href="index.html">
-                ← HERO CARD
-            </a>
+        <div class="panel yellow">
 
-            <a href="trailer.html">
-                ▶ WATCH TRAILER
-            </a>
+            <div class="panel-number">03</div>
+
+            <img src="images/pixelbattle.png">
+
+            <div class="panel-content">
+
+                <h2 class="panel-title">PIXEL BATTLE</h2>
+
+                <p>
+                    Captain Pixel fights giant glitch robots, dodges laser attacks, and protects civilians during an epic rooftop battle.
+                </p>
+
+            </div>
 
         </div>
 
-        <!-- FOOTER -->
-        <div class="footer">
-            🤖 AI GENERATED COMIC STORY EXPERIENCE
+        <!-- panel 4 -->
+
+        <div class="panel purple">
+
+            <div class="panel-number">04</div>
+
+            <img src="images/finalshowdown.png">
+
+            <div class="panel-content">
+
+                <h2 class="panel-title">FINAL SHOWDOWN</h2>
+
+                <p>
+                    Entering a dangerous digital portal, Captain Pixel prepares for the ultimate battle to save the internet forever.
+                </p>
+
+            </div>
+
         </div>
 
     </div>
+
+    <!-- quote -->
+
+    <div class="quote-box">
+
+        <div class="quote-icon">❝</div>
+
+        <div class="quote-text">
+            “The internet isn’t just code anymore... it’s our future. And I won’t let Dr. Lag delete it.”
+        </div>
+
+    </div>
+
+    <!-- buttons -->
+
+    <div class="buttons">
+
+        <a href="index.html" class="btn btn-blue">
+            ← HERO CARD
+        </a>
+
+        <a href="trailer.html" class="btn btn-purple">
+            ▶ WATCH TRAILER
+        </a>
+
+    </div>
+
+
+</div>
 
 </body>
 </html>
