@@ -119,11 +119,45 @@
             box-shadow: 0 0 20px #00d9ff;
         }
 
+        
+
         .footer {
             margin-top: 40px;
             color: #888;
             font-size: 12px;
             letter-spacing: 2px;
+        }
+
+        .music-btn {
+
+            background: black;
+
+            color: #00d9ff;
+
+            border: 2px solid #00d9ff;
+
+            padding: 14px 28px;
+
+            border-radius: 50px;
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            box-shadow: 0 0 15px rgba(0,217,255,0.5);
+        }
+
+        .music-btn:hover {
+
+            background: #00d9ff;
+
+            color: black;
+
+            box-shadow: 0 0 25px #00d9ff;
+
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -193,6 +227,9 @@
     <div class="nav-links">
         <a href="index.html">← BACK TO ID CARD</a>
         <a href="comic.html">NEXT: COMIC STORY →</a>
+        <button class="music-btn" onclick="toggleMusic()">
+            🎵 TOGGLE MUSIC
+        </button>
     </div>
 
     <!-- FOOTER -->
@@ -201,6 +238,32 @@
     </div>
 
 </div>
+    <audio id="bgMusic" loop>
+        <source src="Audio/voice.mp3" type="audio/mpeg">
+    </audio>
 
+    <script>
+
+        const music = document.getElementById("bgMusic");
+        
+        const button = document.querySelector(".music-btn");
+        
+        function toggleMusic(){
+        
+            if(music.paused){
+        
+                music.play();
+        
+                button.innerHTML = "⏸ PAUSE MUSIC";
+        
+            } else {
+        
+                music.pause();
+        
+                button.innerHTML = "🎵 PLAY MUSIC";
+            }
+        }
+        
+    </script>
 </body>
 </html>
