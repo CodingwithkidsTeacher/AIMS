@@ -1,19 +1,370 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>AI News Magazine</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Modern News Magazine</title>
+
+<style>
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body {
+  font-family: Arial;
+  background:#f4f4f4;
+  color:#222;
+}
+
+/* HEADER */
+header {
+  background:#111;
+  color:white;
+  padding:18px 30px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.header-container {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo {
+  font-size:2rem;
+  font-weight:bold;
+}
+
+nav ul {
+  display:flex;
+  gap:20px;
+  list-style:none;
+}
+
+nav li {
+  cursor:pointer;
+  transition:0.2s;
+}
+
+nav li:hover {
+  color:#ff4d4d;
+}
+
+/* HERO */
+.hero {
+  position:relative;
+  height:500px;
+}
+
+.hero img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.hero-content {
+  position:absolute;
+  bottom:40px;
+  left:40px;
+  color:white;
+  max-width:600px;
+}
+
+.hero-content h1 {
+  font-size:2.8rem;
+}
+
+.hero-content p {
+  margin:10px 0 15px;
+}
+
+.btn {
+  background:#ff4d4d;
+  padding:12px 25px;
+  border-radius:30px;
+  color:white;
+  display:inline-block;
+  text-decoration:none;
+}
+
+/* MAIN */
+.container {
+  width:90%;
+  max-width:1200px;
+  margin:40px auto;
+}
+
+/* CONTROLS */
+.controls {
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+input {
+  flex:1;
+  min-width:220px;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+button {
+  background:#ff4d4d;
+  color:white;
+  border:none;
+  padding:12px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover {
+  background:#e63b3b;
+}
+
+/* SECTION TITLE */
+.section-title {
+  font-size:2rem;
+  border-left:6px solid #ff4d4d;
+  padding-left:15px;
+  margin-bottom:20px;
+}
+
+/* AI SUMMARY */
+.topic-summary {
+  background:white;
+  border-left:4px solid #ff4d4d;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:25px;
+  line-height:1.6;
+  color:#444;
+  box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* GRID */
+.news-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+}
+
+/* CARD */
+.card {
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 4px 15px rgba(0,0,0,0.08);
+  transition:0.25s;
+}
+
+.card:hover {
+  transform:translateY(-5px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card img {
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+
+.card-content {
+  padding:15px;
+}
+
+.card h3 {
+  font-size:1.1rem;
+  margin-bottom:10px;
+}
+
+.card a {
+  color:#ff4d4d;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+.card a:hover {
+  text-decoration:underline;
+}
+
+/* FOOTER */
+footer {
+  text-align:center;
+  padding:30px;
+  background:#111;
+  color:white;
+  margin-top:60px;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+  .hero-content h1 {
+    font-size:1.8rem;
+  }
+
+  .hero-content {
+    left:20px;
+    right:20px;
+  }
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <h1>📰 AI News Magazine</h1>
-        <p>Created by AI Agents</p>
-    </header>
+<header>
+  <div class="header-container">
 
-    <main>
-        {{ARTICLES}}
-    </main>
+    <div class="logo">NEWSMAG</div>
+
+    <nav>
+      <ul>
+        <li>Home</li>
+        <li>World</li>
+        <li>Tech</li>
+        <li>Sports</li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+
+<section class="hero">
+
+  <img src="https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=1600&auto=format&fit=crop">
+
+  <div class="hero-content">
+    <h1>Breaking Stories That Matter</h1>
+    <p>Live AI-powered trending news dashboard</p>
+    <a class="btn" href="#">Read Latest</a>
+  </div>
+
+</section>
+
+<div class="container">
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <input id="search" placeholder="Search topics..." />
+    <button onclick="loadNews()">Update News</button>
+  </div>
+
+  <!-- TITLE -->
+  <h2 class="section-title">Top Stories</h2>
+
+  <!-- AI SUMMARY -->
+  <p id="topic-summary" class="topic-summary"></p>
+
+  <!-- NEWS GRID -->
+  <div class="news-grid" id="news-grid"></div>
+
+</div>
+
+<footer>
+  © 2026 NEWSMAG
+</footer>
+
+<script>
+
+let allArticles = [];
+
+// ----------------------
+// LOAD NEWS.JSON
+// ----------------------
+async function loadNews() {
+
+  const grid = document.getElementById("news-grid");
+  const summaryBox = document.getElementById("topic-summary");
+
+  grid.innerHTML = "<p>Loading news...</p>";
+  summaryBox.textContent = "";
+
+  const res = await fetch("news.json?ts=" + Date.now());
+
+  const data = await res.json();
+
+  const topic = data.topics?.[0];
+
+  if (!topic) {
+    grid.innerHTML = "<p>No news found.</p>";
+    return;
+  }
+
+  // SHOW AI SUMMARY
+  summaryBox.textContent =
+    topic.summary || "No summary available.";
+
+  // SAVE ARTICLES
+  allArticles = topic.articles;
+
+  // RENDER ARTICLES
+  render(allArticles);
+}
+
+// ----------------------
+// RENDER NEWS CARDS
+// ----------------------
+function render(list) {
+
+  const grid = document.getElementById("news-grid");
+
+  grid.innerHTML = "";
+
+  list.forEach(article => {
+
+    const card = document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+      <img src="${article.image || 'https://via.placeholder.com/600'}">
+
+      <div class="card-content">
+
+        <h3>${article.title}</h3>
+
+        <a href="${article.url}" target="_blank">
+          Read more →
+        </a>
+
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+// ----------------------
+// SEARCH ARTICLES
+// ----------------------
+document.getElementById("search")
+.addEventListener("input", (e) => {
+
+  const value = e.target.value.toLowerCase();
+
+  const filtered = allArticles.filter(article =>
+
+    article.title.toLowerCase().includes(value)
+
+  );
+
+  render(filtered);
+});
+
+// ----------------------
+// START
+// ----------------------
+loadNews();
+
+</script>
 
 </body>
 </html>
