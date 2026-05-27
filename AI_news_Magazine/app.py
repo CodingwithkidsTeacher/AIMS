@@ -1,139 +1,217 @@
-import requests
-from openai import OpenAI
-from dotenv import load_dotenv
 import os
-import json  # ✅ ADDED for JSON saving
+import json
+from datetime import datetime
+from dotenv import load_dotenv
+from groq import Groq
+from eventregistry import (
+    EventRegistry,
+    GetTrendingConcepts,
+    QueryArticlesIter
+)
 
-# Load API keys
+# -----------------------
+# LOAD API KEYS
+# -----------------------
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+NEWS_KEY = os.getenv("EVENT_REGISTRY_API_KEY") or os.getenv("NEWS_API_KEY")
+GROQ_KEY = os.getenv("GROQ_API_KEY")
 
-# OpenAI client
-client = OpenAI(api_key=OPENAI_API_KEY)
+if not NEWS_KEY:
+    raise ValueError("Missing news API key")
 
-# -----------------------------------
-# STEP 1 — GET NEWS ARTICLES
-# -----------------------------------
+if not GROQ_KEY:
+    raise ValueError("Missing GROQ_API_KEY")
 
-def get_news(topic="technology"):
-    url = "https://newsapi.org/v2/top-headlines"
-    params = {
-        "q": topic,
-        "language": "en",
-        "pageSize": 5,
-        "apiKey": NEWS_API_KEY
-    }
-    response = requests.get(url, params=params)
-    data = response.json()
-    return data["articles"]
+news_api = EventRegistry(apiKey=NEWS_KEY)
+groq = Groq(api_key=GROQ_KEY)
 
-# -----------------------------------
-# STEP 2 — SUMMARIZE ARTICLE
-# -----------------------------------
 
-def summarize_article(article_text):
-    prompt = f"""
-    Summarize this news article in 2 short sentences.
-    Make it exciting and easy for students to understand.
+# -----------------------
+# GET TRENDING TOPICS
+# -----------------------
+def get_topics():
+    print("🔥 Getting trending topics...")
 
-    Article:
-    {article_text}
-    """
-    response = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[{"role": "user", "content": prompt}]
-    )
-    summary = response.choices[0].message.content
-    return summary
+    query = GetTrendingConcepts(source="news", count=5)
+    results = news_api.execQuery(query)
 
-def generate_headline(original_title, summary):
-    response = client.chat.completions.create(  # Fixed: changed openai_client to client
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "Rewrite this news headline to be more engaging for a young audience."},
-            {"role": "user", "content": f"Original: {original_title}\nSummary: {summary}"}
-        ]
-    )
-    return response.choices[0].message.content
+    topics = []
 
-# -----------------------------------
-# STEP 3 — CREATE HTML ARTICLE
-# -----------------------------------
+    for item in results:
+        name = item.get("label", {}).get("eng")
 
-def create_article_html(title, summary, image_url, article_url):
-    html = f"""
-    <div class="article">
-        <h2>{title}</h2>
-        <img src="{image_url}" width="100%">
-        <p>{summary}</p>
-        <a href="{article_url}" target="_blank">
-            Read Full Article
-        </a>
-    </div>
-    """
-    return html
+        if name:
+            topics.append(name)
 
-# -----------------------------------
-# STEP 4 — BUILD MAGAZINE
-# -----------------------------------
+    return topics
 
-def build_magazine(topic="technology"):
-    articles = get_news(topic)
-    all_articles_html = ""
-    processed_articles = []  # ✅ ADDED for JSON storage
 
-    for article in articles:
-        title = article.get("title", "No Title")
-        description = article.get("description", "")
-        image_url = article.get("urlToImage", "https://via.placeholder.com/600x300")
-        article_url = article.get("url", "#")
+# -----------------------
+# GET NEWS ARTICLES
+# -----------------------
+def get_articles(topic):
+    print(f"📰 Getting articles about: {topic}")
 
-        print(f"Generating summary for: {title}")
-        summary = summarize_article(description)
+    query = QueryArticlesIter(keywords=topic)
 
-        # ✅ ADDED: Save to list for JSON
-        processed_articles.append({
+    articles = []
+    seen_titles = set()
+
+    for article in query.execQuery(news_api, maxItems=15):
+
+        title = article.get("title", "No title")
+        clean_title = title.lower().strip()
+
+        # Skip duplicate titles
+        if clean_title in seen_titles:
+            continue
+
+        seen_titles.add(clean_title)
+
+        articles.append({
             "title": title,
-            "summary": summary,
-            "image_url": image_url,
-            "article_url": article_url
+            "url": article.get("url", ""),
+            "image": article.get("image") or "https://via.placeholder.com/600x400",
+            "source": article.get("source", {}).get("title", "Unknown"),
+            "date": article.get("date", "")
         })
 
-        article_html = create_article_html(title, summary, image_url, article_url)
-        all_articles_html += article_html
+        if len(articles) >= 5:
+            break
 
-    # ✅ ADDED: Save to JSON file
-    with open("articles.json", "w", encoding="utf-8") as f:
-        json.dump(processed_articles, f, indent=2)
-    print(f"💾 Saved {len(processed_articles)} articles to articles.json")
+    return articles
 
-    return all_articles_html
 
-# -----------------------------------
-# STEP 5 — UPDATE WEBSITE
-# -----------------------------------
+# -----------------------
+# ASK GROQ TO SUMMARIZE
+# -----------------------
+def summarize_topic(topic, articles):
+    print(f"🤖 Summarizing: {topic}")
 
-def update_website(topic="technology"):
-    with open("template.html", "r", encoding="utf-8") as file:
-        template = file.read()
+    article_text = ""
 
-    articles_html = build_magazine(topic)
+    for article in articles:
+        article_text += "- " + article["title"] + "\n"
 
-    final_html = template.replace("{{ARTICLES}}", articles_html)
+    prompt = f"""
+You are writing for a modern online news magazine for kids age 8-12.
 
-    with open("index.html", "w", encoding="utf-8") as file:
-        file.write(final_html)
+Write ONLY the summary.
 
-    print("✅ Website updated successfully!")
+Rules:
+- Write 2 short sentences
+- Sound exciting and natural
+- Do NOT say:
+  "Here is a summary"
+  "Here’s a summary"
+  "In summary"
+- Do NOT use bullet points
+- Keep it easy for kids to understand
 
-# -----------------------------------
-# RUN PROJECT
-# -----------------------------------
+Topic: {topic}
 
-if __name__ == "__main__":
-    # ✅ ADDED: Topic selection
-    user_topic = input("Enter news topic (technology, sports, science, space): ") or "space"
-    print(f"\n📰 Creating magazine about: {user_topic}\n")
-    update_website(user_topic)
+Article titles:
+{article_text}
+"""
+
+    response = groq.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        temperature=0.3,
+        max_tokens=120
+    )
+
+    return response.choices[0].message.content
+
+
+# -----------------------
+# BUILD NEWS JSON
+# -----------------------
+def build_news(topics):
+
+    magazine = {
+        "generatedAt": str(datetime.now()),
+        "topics": []
+    }
+
+    for topic in topics:
+
+        articles = get_articles(topic)
+
+        if len(articles) == 0:
+            continue
+
+        summary = summarize_topic(topic, articles)
+
+        magazine["topics"].append({
+            "name": topic,
+            "summary": summary,
+            "articles": articles
+        })
+
+    return magazine
+
+
+# -----------------------
+# SAVE TO FILE
+# -----------------------
+def save_news(data):
+
+    with open("news.json", "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=2, ensure_ascii=False)
+
+    print("✅ Saved news.json")
+
+
+# -----------------------
+# MAIN PROGRAM
+# -----------------------
+print("\n📡 AI News Magazine Generator\n")
+
+mode = input(
+    "Type 't' for trending news or 's' to search your own topic: "
+).lower()
+
+topics = []
+
+# -----------------------
+# TRENDING MODE
+# -----------------------
+if mode == "t":
+
+    topics = get_topics()
+
+# -----------------------
+# SEARCH MODE
+# -----------------------
+elif mode == "s":
+
+    custom_topic = input(
+        "Enter a topic (AI, sports, Tesla, Minecraft): "
+    )
+
+    topics = [custom_topic]
+
+# -----------------------
+# FALLBACK
+# -----------------------
+else:
+    print("❌ Invalid choice")
+    exit()
+
+print("\n🧠 Topics:")
+print(topics)
+
+print("\n📰 Building news magazine...\n")
+
+news_data = build_news(topics)
+
+save_news(news_data)
+
+print("\n🎉 Done! Open index.html")
